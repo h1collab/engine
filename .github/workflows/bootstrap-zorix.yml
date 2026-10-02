@@ -91,3 +91,5 @@ jobs:
           name: zorix-engine-android-apk
           path: source/dist/Zorix-Engine-4.7.2-android-arm64.apk
           retention-days: 60
+
+# trigger bootstrap
