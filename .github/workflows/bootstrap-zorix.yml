@@ -54,20 +54,6 @@ jobs:
         working-directory: source
         run: python tools/zorix/apply_branding.py
 
-      - name: Import complete source into h1collab/engine
-        working-directory: source
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          rm -rf .git
-          git init -b main
-          git config user.name "Zorix Build Bot"
-          git config user.email "actions@users.noreply.github.com"
-          git add -A
-          git commit -m "Import Godot 4.7.2 and apply Zorix Engine branding"
-          git remote add origin "https://x-access-token:${GH_TOKEN}@github.com/h1collab/engine.git"
-          git push --force origin main
-
       - name: Download Swappy
         working-directory: source
         run: python misc/scripts/install_swappy_android.py
@@ -94,5 +80,20 @@ jobs:
           name: zorix-engine-android-apk
           path: source/dist/Zorix-Engine-4.7.2-android-arm64.apk
           retention-days: 60
+
+      - name: Publish branded source branch
+        working-directory: source
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          rm -rf .git .github/workflows
+          git init -b zorix-source
+          git config user.name "Zorix Build Bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          git commit -m "Zorix Engine 4.7.2 branded source snapshot"
+          git remote add origin "https://x-access-token:${GH_TOKEN}@github.com/h1collab/engine.git"
+          git push --force origin zorix-source
 
 # trigger bootstrap
