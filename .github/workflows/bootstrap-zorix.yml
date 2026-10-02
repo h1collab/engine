@@ -59,12 +59,13 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          rm -rf .git
+          git init -b main
           git config user.name "Zorix Build Bot"
           git config user.email "actions@users.noreply.github.com"
-          git checkout -B main
           git add -A
           git commit -m "Import Godot 4.7.2 and apply Zorix Engine branding"
-          git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/h1collab/engine.git"
+          git remote add origin "https://x-access-token:${GH_TOKEN}@github.com/h1collab/engine.git"
           git push --force origin main
 
       - name: Download Swappy
